@@ -1,0 +1,21 @@
+{
+  "name": "falcon512-js",
+  "version": "1.0.0",
+  "description": "Optimized Falcon-512 signature scheme for JS/WebAssembly",
+  "main": "src/index.js",
+  "scripts": {
+    "benchmark": "node tests/benchmark.js",
+    "build": "cd falcon && make clean && make falconjs && cd ../"
+  },
+  "keywords": [
+    "falcon512",
+    "post-quantum",
+    "cryptography",
+    "wasm"
+  ],
+  "author": "wh173-c47",
+  "license": "MIT",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
+}
