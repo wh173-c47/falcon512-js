@@ -9,7 +9,7 @@ It exposes a simple Node.js class interface to sign and verify data using Falcon
 
 ## Requirements
 
-- Node.js
+- `Node.js`
 
 ---
 
@@ -50,7 +50,7 @@ const { Falcon512 } = require("./index.js");
 
 ### Requirements
 
-- python (>= 3.8)
+- `python` (>= 3.8)
 - `emcc` (4.0.10) (Emscripten compiler) to build the WASM module
 
 ### Installing Emscripten

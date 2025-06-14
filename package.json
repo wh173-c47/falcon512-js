@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Optimized Falcon-512 signature scheme for JS/WebAssembly",
   "main": "src/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "benchmark": "node tests/benchmark.js",
     "build": "cd falcon && make clean && make falconjs && cd ../"
