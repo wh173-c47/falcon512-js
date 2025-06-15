@@ -1,6 +1,6 @@
 {
   "name": "falcon512-js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Optimized Falcon-512 signature scheme for JS/WebAssembly",
   "main": "src/index.js",
   "types": "index.d.ts",
@@ -13,6 +13,11 @@
     "post-quantum",
     "cryptography",
     "wasm"
+  ],
+  "files": [
+    "falcon/falcon.js",
+    "index.js",
+    "index.d.ts"
   ],
   "author": "wh173-c47",
   "license": "MIT",

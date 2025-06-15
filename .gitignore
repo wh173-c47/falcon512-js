@@ -2,3 +2,4 @@
 .idea
 .python-version
 node_modules
+**/*.o
