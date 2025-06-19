@@ -19,22 +19,18 @@ class Falcon512 {
     return Falcon512._instance;
   }
 
-  handleSeed(seed) {
-    if (!seed || seed.length === 0) {
-      return Uint8Array.from(crypto.randomBytes(256));
-    }
-
-    return seed;
+  handleSeed() {
+    return crypto.randomBytes(256);
   }
 
-  genkeys(seed = undefined) {
-    const pair = this.falcon.keypair(this.handleSeed(seed));
+  genkeys() {
+    const pair = this.falcon.keypair(this.handleSeed());
 
     return {sk: pair.privateKey, pk: pair.publicKey};
   }
 
-  sign(sk, data, seed = undefined) {
-    return this.falcon.sign(data, sk, this.handleSeed(seed));
+  sign(sk, data) {
+    return this.falcon.sign(data, sk, this.handleSeed());
   }
 
   verify(pk, signature, data) {

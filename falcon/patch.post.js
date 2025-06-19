@@ -1,29 +1,30 @@
 // inserted slightly before emcc gen
+    const FALCON_512_PUB_KEY_SIZE = 897;
+    const FALCON_512_PRV_KEY_SIZE = 1281;
+    const FALCON_512_SIG_COMP_MAX_SIZE = 752;
 
     // Check if valid return data
     function dataReturn (returnValue, result) {
         if (returnValue === 0) return result;
+
         throw new Error('FALCON error: ' + returnValue);
     }
 
     // Get result from memory
     function dataResult (buffer, bytes) {
-        return new Uint8Array(
-            new Uint8Array(HEAPU8.buffer, buffer, bytes)
-        );
+        return new Uint8Array(HEAPU8.buffer, buffer, bytes).slice();
     }
 
     // Free malloc buffer
     function dataFree (buffer) {
         try {
             Module._xfree(buffer);
-        }
-        catch (err) {
+        } catch (err) {
             setTimeout(function () {throw err;}, 0);
         }
     }
 
-    var falcon = {
+    const falcon = {
         version: 'v0.3-beta',
         initialised: false,
 
@@ -32,18 +33,17 @@
         },
 
         keypair: function (seed) {
-            var seedData = typeof seed === 'string' ? new TextEncoder().encode(seed) : seed;
-            var seedDataBytes = seedData.length;
-            var seedDataBuffer = Module._xmalloc(seedDataBytes);
-            var publicKeyBytes = Module._falconjs_pubkey_size();
-            var publicKeyBuffer = Module._xmalloc(publicKeyBytes);
-            var privateKeyBytes = Module._falconjs_privkey_size();
-            var privateKeyBuffer = Module._xmalloc(privateKeyBytes);
+            const seedDataBytes = seed.length;
+            const seedDataBuffer = Module._xmalloc(seedDataBytes);
+            const publicKeyBytes = FALCON_512_PUB_KEY_SIZE;
+            const publicKeyBuffer = Module._xmalloc(publicKeyBytes);
+            const privateKeyBytes = FALCON_512_PRV_KEY_SIZE;
+            const privateKeyBuffer = Module._xmalloc(privateKeyBytes);
 
-            Module.writeArrayToMemory(seedData, seedDataBuffer);
+            HEAPU8.set(seed, seedDataBuffer);
 
             try {
-                var returnValue = Module._falconjs_keygen_make(
+                const returnValue = Module._falconjs_keygen_make(
                     publicKeyBuffer,
                     privateKeyBuffer,
                     seedDataBuffer,
@@ -62,26 +62,24 @@
             }
         },
 
-        sign: function (message, privateKey, seed) {
-            var seedData = typeof seed === 'string' ? new TextEncoder().encode(seed) : seed;
-            var seedDataBytes = seedData.length;
-            var seedDataBuffer = Module._xmalloc(seedDataBytes);
-            var data = typeof message === 'string' ? new TextEncoder().encode(message) : message;
-            var dataBytes = data.length;
-            var dataBuffer = Module._xmalloc(dataBytes);
-            var privateKeyBytes = privateKey.length;
-            var privateKeyBuffer = Module._xmalloc(privateKeyBytes);
-            var signatureKeyBytes = Module._falconjs_sig_compressed_maxsize();
-            var signatureKeyBuffer = Module._xmalloc(signatureKeyBytes);
-            var signatureKeyBytesBuffer = Module._xmalloc(4);
+        sign: function (data, privateKey, seed) {
+            const seedDataBytes = seed.length;
+            const seedDataBuffer = Module._xmalloc(seedDataBytes);
+            const dataBytes = data.length;
+            const dataBuffer = Module._xmalloc(dataBytes);
+            const privateKeyBytes = privateKey.length;
+            const privateKeyBuffer = Module._xmalloc(privateKeyBytes);
+            let signatureKeyBytes = FALCON_512_SIG_COMP_MAX_SIZE;
+            const signatureKeyBuffer = Module._xmalloc(signatureKeyBytes);
+            const signatureKeyBytesBuffer = Module._xmalloc(4);
 
-            Module.writeArrayToMemory(seedData, seedDataBuffer);
-            Module.writeArrayToMemory(data, dataBuffer);
-            Module.writeArrayToMemory(privateKey, privateKeyBuffer);
-            Module.writeArrayToMemory(new Uint8Array(new Int32Array([signatureKeyBytes]).buffer), signatureKeyBytesBuffer);
+            HEAPU8.set(seed, seedDataBuffer);
+            HEAPU8.set(data, dataBuffer);
+            HEAPU8.set(privateKey, privateKeyBuffer);
+            HEAP32[signatureKeyBytesBuffer >> 2] = signatureKeyBytes;
 
             try {
-                var returnValue = Module._falconjs_sign_dyn(
+                const returnValue = Module._falconjs_sign_dyn(
                     signatureKeyBuffer,
                     signatureKeyBytesBuffer,
                     privateKeyBuffer,
@@ -91,14 +89,14 @@
                     seedDataBytes
                 );
 
-                signatureKeyBytes = new Int32Array(dataResult(signatureKeyBytesBuffer, 4).buffer)[0];
+                const view = new DataView(dataResult(signatureKeyBytesBuffer, 4).buffer, signatureKeyBytesBuffer.byteOffset);
+                signatureKeyBytes = view.getUint32(0, true);
 
                 return dataReturn(
                     returnValue,
                     dataResult(signatureKeyBuffer, signatureKeyBytes)
                 );
-            }
-            finally {
+            } finally {
                 dataFree(seedDataBuffer);
                 dataFree(dataBuffer);
                 dataFree(privateKeyBuffer);
@@ -106,21 +104,20 @@
             }
         },
 
-        verify: function (message, signature, publicKey) {
-            var data = typeof message === 'string' ? new TextEncoder().encode(message) : message;
-            var dataBytes = data.length;
-            var dataBuffer = Module._xmalloc(dataBytes);
-            var publicKeyBytes = publicKey.length;
-            var publicKeyBuffer = Module._xmalloc(publicKeyBytes);
-            var signatureKeyBytes = signature.length;
-            var signatureKeyBuffer = Module._xmalloc(signatureKeyBytes);
+        verify: function (data, signature, publicKey) {
+            const dataBytes = data.length;
+            const dataBuffer = Module._xmalloc(dataBytes);
+            const publicKeyBytes = publicKey.length;
+            const publicKeyBuffer = Module._xmalloc(publicKeyBytes);
+            const signatureKeyBytes = signature.length;
+            const signatureKeyBuffer = Module._xmalloc(signatureKeyBytes);
 
-            Module.writeArrayToMemory(data, dataBuffer);
-            Module.writeArrayToMemory(publicKey, publicKeyBuffer);
-            Module.writeArrayToMemory(signature, signatureKeyBuffer);
+            HEAPU8.set(data, dataBuffer);
+            HEAPU8.set(publicKey, publicKeyBuffer);
+            HEAPU8.set(signature, signatureKeyBuffer);
 
             try {
-                var returnValue = Module._falconjs_verify(
+                const returnValue = Module._falconjs_verify(
                     signatureKeyBuffer,
                     signatureKeyBytes,
                     publicKeyBuffer,

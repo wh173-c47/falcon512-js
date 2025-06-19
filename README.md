@@ -3,7 +3,7 @@
 > Efficient Falcon-512 post-quantum safe digital signature algorithm commonJS lib using WebAssembly.
 
 This library wraps the original Falcon-512 C implementation compiled to WebAssembly via Emscripten. 
-It exposes a simple Node.js class interface to sign and verify data using Falcon512.
+It exposes a simple Node.js class interface to sign and verify data using Falcon512 (compressed sig type).
 
 ---
 
@@ -73,23 +73,22 @@ npm run build
 
 ## Benchmarks
 
-### Falcon512 Keygen
-- Runs: 1000
-- Total: 9122.305 ms
-- Avg per call: 9.122305 ms
-- Calls/sec: 109.62 ops/sec
+### 📊 Falcon512 Keygen
+- Bench:  1000 runs, 9026.471 ms total
+- Avg per call: 9.026471 ms
+- Calls/sec: 110.79 ops/sec
 
-### Falcon512 Sign
-- Runs: 1000
-- Total: 418.553 ms
-- Avg per call: 0.418553 ms
-- Calls/sec: 2389.18 ops/sec
+### 📊 Falcon512 Sign
+- Bench:  1000 runs, 452.221 ms total
+- Avg per call: 0.452221 ms
+- Calls/sec: 2211.31 ops/sec
 
-### Falcon512 Verify
-- Runs: 1000
-- Total: 41.382 ms
-- Avg per call: 0.041382 ms
-- Calls/sec: 24165.13 ops/sec
+### 📊 Falcon512 Verify
+- Bench:  1000 runs, 44.156 ms total
+- Avg per call: 0.044156 ms
+- Calls/sec: 22647.19 ops/sec
+
+
 
 *Note: Results may differ depending on the execution environment, you can run your own benchmarks following below instructions.*
 

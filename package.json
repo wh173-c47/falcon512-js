@@ -1,12 +1,16 @@
 {
   "name": "falcon512-js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Optimized Falcon-512 signature scheme for JS/WebAssembly",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "benchmark": "node tests/benchmark.js",
     "build": "cd falcon && make clean && make falconjs && cd ../"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wh173-c47/falcon512-js.git"
   },
   "keywords": [
     "falcon512",
@@ -22,6 +26,5 @@
   "author": "wh173-c47",
   "license": "MIT",
   "dependencies": {
-    "crypto": "^1.0.1"
   }
 }

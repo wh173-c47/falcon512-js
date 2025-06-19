@@ -10,7 +10,7 @@
 #   LIBS     Extra libraries for linking.
 
 CC = emcc
-CFLAGS = -Wall -Wextra -Wshadow -Wundef -O3 -msimd128 -mfpu=neon -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=1 -DFALCON_RAND_WIN32=0
+CFLAGS = -Wall -Wextra -Wshadow -Wundef -O3 -msimd128 -mfpu=neon -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -DNDEBUG -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=0 -DFALCON_RAND_WIN32=0
 LD = emcc
 LDFLAGS = -O3 -msimd128 -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=0 -DFALCON_RAND_WIN32=0
 
@@ -30,9 +30,10 @@ clean:
 
 falconjs: falconjs.o $(OBJ)
 	$(LD) $(LDFLAGS) -o falcon.js falconjs.o $(OBJ) $(LIBS) \
-	-s EXPORTED_FUNCTIONS='["_xfree","_xmalloc","_falconjs_pubkey_size","_falconjs_privkey_size","_falconjs_expandedkey_size","_falconjs_sig_compressed_maxsize","_falconjs_sig_ct_size","_falconjs_keygen_make","_falconjs_expand_privkey","_falconjs_sign_dyn","_falconjs_verify"]' \
-	-s EXPORTED_RUNTIME_METHODS='["writeArrayToMemory", "FS"]' \
+	-s EXPORTED_FUNCTIONS='["_xfree","_xmalloc","_falconjs_keygen_make","_falconjs_sign_dyn","_falconjs_verify"]' \
+	-s EXPORTED_RUNTIME_METHODS='["FS"]' \
 	-sFORCE_FILESYSTEM \
+	-DNDEBUG \
 	-sWASM=1 \
 	-sALLOW_MEMORY_GROWTH=1 \
 	-sSINGLE_FILE=1 \
