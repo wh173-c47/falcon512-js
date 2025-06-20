@@ -10,7 +10,7 @@
 #   LIBS     Extra libraries for linking.
 
 CC = emcc
-CFLAGS = -Wall -Wextra -Wshadow -Wundef -O3 -msimd128 -mfpu=neon -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -DNDEBUG -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=0 -DFALCON_RAND_WIN32=0
+CFLAGS = -Wall -Wextra -Wshadow -Wundef -O3 -msimd128 -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -DNDEBUG -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=0 -DFALCON_RAND_WIN32=0
 LD = emcc
 LDFLAGS = -O3 -msimd128 -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=0 -DFALCON_RAND_WIN32=0
 
@@ -32,7 +32,6 @@ falconjs: falconjs.o $(OBJ)
 	$(LD) $(LDFLAGS) -o falcon.js falconjs.o $(OBJ) $(LIBS) \
 	-s EXPORTED_FUNCTIONS='["_xfree","_xmalloc","_falconjs_keygen_make","_falconjs_sign_dyn","_falconjs_verify"]' \
 	-s EXPORTED_RUNTIME_METHODS='["FS"]' \
-	-sFORCE_FILESYSTEM \
 	-DNDEBUG \
 	-sWASM=1 \
 	-sALLOW_MEMORY_GROWTH=1 \
@@ -41,7 +40,7 @@ falconjs: falconjs.o $(OBJ)
 	-sMODULARIZE=1 \
 	-sEXPORT_ES6=0 \
 	-sENVIRONMENT=node \
-	-sSAFE_HEAP=0
+	-sINITIAL_MEMORY=131072 \
 
 	head -n -12 falcon.js | cat - patch.post.js > tmp && mv tmp falcon.js
 
