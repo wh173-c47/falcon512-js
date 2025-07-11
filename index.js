@@ -23,8 +23,8 @@ class Falcon512 {
     return crypto.randomBytes(256);
   }
 
-  genkeys() {
-    const pair = this.falcon.keypair(this.handleSeed());
+  genkeys(entropy) {
+    const pair = this.falcon.keypair(entropy ? entropy : this.handleSeed());
 
     return {sk: pair.privateKey, pk: pair.publicKey};
   }

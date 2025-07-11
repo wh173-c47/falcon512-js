@@ -25,6 +25,7 @@
   ],
   "author": "wh173-c47",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
+    "@types/node": "^24.0.13"
   }
 }
