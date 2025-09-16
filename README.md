@@ -1,4 +1,4 @@
-# Falcon512 CommonJS Library
+# Falcon512 Web Library
 
 > Efficient Falcon-512 post-quantum safe digital signature algorithm commonJS lib using WebAssembly.
 

@@ -1,9 +1,4 @@
 const FalconModule = require("./falcon/falcon.js");
-const crypto = require("crypto");
-
-const isBrowser = () => {
-  return typeof window !== "undefined" && !!window.crypto?.subtle;
-}
 
 class Falcon512 {
   static _instance = null;

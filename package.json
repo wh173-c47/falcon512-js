@@ -1,9 +1,21 @@
 {
   "name": "falcon512-js",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Optimized Falcon-512 signature scheme for JS/WebAssembly",
   "main": "index.js",
   "types": "index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "browser": "./dist/index-browser.js",
+      "node": "./dist/index-node.js",
+      "import": "./dist/index-browser.js",
+      "default": "./dist/index-browser.js"
+    },
+    "./wasm/falcon.wasm": "./dist/falcon.wasm",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "benchmark": "node tests/benchmark.js",
     "build": "cd falcon && make clean && make falconjs && cd ../"

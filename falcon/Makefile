@@ -31,7 +31,6 @@ clean:
 falconjs: falconjs.o $(OBJ)
 	$(LD) $(LDFLAGS) -o falcon.js falconjs.o $(OBJ) $(LIBS) \
 	-s EXPORTED_FUNCTIONS='["_xfree","_xmalloc","_falconjs_keygen_make","_falconjs_sign_dyn","_falconjs_verify"]' \
-	-s EXPORTED_RUNTIME_METHODS='["FS"]' \
 	-DNDEBUG \
 	-sWASM=1 \
 	-sALLOW_MEMORY_GROWTH=1 \
@@ -39,7 +38,7 @@ falconjs: falconjs.o $(OBJ)
 	-sNO_EXIT_RUNTIME=1 \
 	-sMODULARIZE=1 \
 	-sEXPORT_ES6=0 \
-	-sENVIRONMENT=node \
+	-sENVIRONMENT=web,node \
 	-sINITIAL_MEMORY=131072 \
 
 	head -n -12 falcon.js | cat - patch.post.js > tmp && mv tmp falcon.js
