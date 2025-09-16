@@ -1,6 +1,10 @@
 const FalconModule = require("./falcon/falcon.js");
 const crypto = require("crypto");
 
+const isBrowser = () => {
+  return typeof window !== "undefined" && !!window.crypto?.subtle;
+}
+
 class Falcon512 {
   static _instance = null;
   falcon;
@@ -20,7 +24,19 @@ class Falcon512 {
   }
 
   handleSeed() {
-    return crypto.randomBytes(256);
+    if (typeof window !== "undefined" && window.crypto?.getRandomValues) {
+      // Browser: use Web Crypto
+      const arr = new Uint8Array(256);
+
+      window.crypto.getRandomValues(arr);
+
+      return arr;
+    } else {
+      // Node.js: use crypto
+      const { randomBytes } = require("crypto");
+
+      return randomBytes(256);
+    }
   }
 
   genkeys(entropy) {

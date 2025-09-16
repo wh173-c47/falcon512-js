@@ -25,7 +25,8 @@ shake256_context get_rng(uint8_t *seed, size_t seed_len) {
 	return rng;
 }
 
-int falconjs_keygen_make(uint8_t *pk, uint8_t *sk,  uint8_t *seed, size_t seed_len) {
+int falconjs_keygen_make(uint8_t *pk, uint8_t *sk,  uint8_t *seed, size_t seed_len)
+{
 	shake256_context rng = get_rng(seed, seed_len);
 
 	size_t tmp_len = FALCON_TMPSIZE_KEYGEN(9);
@@ -42,7 +43,16 @@ int falconjs_keygen_make(uint8_t *pk, uint8_t *sk,  uint8_t *seed, size_t seed_l
 	return r;
 }
 
-int falconjs_sign_dyn(uint8_t *sig, size_t *sig_len, uint8_t *sk, uint8_t *data, size_t data_len, uint8_t *seed, size_t seed_len) {
+int falconjs_sign_dyn(
+    uint8_t *sig,
+    size_t *sig_len,
+    uint8_t *sk,
+    uint8_t *data,
+    size_t data_len,
+    uint8_t *seed,
+    size_t seed_len
+)
+{
 	shake256_context rng = get_rng(seed, seed_len);
 	size_t tmp_len = FALCON_TMPSIZE_SIGNDYN(9);
 	uint8_t *tmp = xmalloc(tmp_len);
@@ -59,7 +69,8 @@ int falconjs_sign_dyn(uint8_t *sig, size_t *sig_len, uint8_t *sk, uint8_t *data,
 	return r;
 }
 
-int falconjs_verify(uint8_t *sig, size_t sig_len, uint8_t *pk, uint8_t *data, size_t data_len) {
+int falconjs_verify(uint8_t *sig, size_t sig_len, uint8_t *pk, uint8_t *data, size_t data_len)
+{
 	size_t tmp_len = FALCON_TMPSIZE_VERIFY(9);
 	uint8_t *tmp = xmalloc(tmp_len);
 
