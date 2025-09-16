@@ -38,7 +38,7 @@ falconjs: falconjs.o $(OBJ)
 	-sNO_EXIT_RUNTIME=1 \
 	-sMODULARIZE=1 \
 	-sEXPORT_ES6=0 \
-	-sENVIRONMENT=web \
+	-sENVIRONMENT=web,node \
 	-sINITIAL_MEMORY=131072 \
 
 	head -n -12 falcon.js | cat - patch.post.js > tmp && mv tmp falcon.js
