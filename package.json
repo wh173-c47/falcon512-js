@@ -1,6 +1,6 @@
 {
   "name": "falcon512-js",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Optimized Falcon-512 signature scheme for JS/WebAssembly",
   "main": "index.js",
   "types": "index.d.ts",
