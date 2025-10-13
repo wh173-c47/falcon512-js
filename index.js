@@ -1,4 +1,4 @@
-const FalconModule = require("./falcon/falcon.js");
+const FalconModule = require("./falcon/falcon.min.js");
 
 class Falcon512 {
   static _instance = null;

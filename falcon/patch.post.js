@@ -151,5 +151,6 @@
 if (typeof exports === 'object' && typeof module === 'object') {
     module.exports = Module;
     module.exports.default = Module;
-} else if (typeof define === 'function' && define['amd'])
+} else if (typeof define === 'function' && define['amd']) {
     define([], () => Module);
+}

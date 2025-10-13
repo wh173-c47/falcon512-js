@@ -10,9 +10,9 @@
 #   LIBS     Extra libraries for linking.
 
 CC = emcc
-CFLAGS = -Wall -Wextra -Wshadow -Wundef -O3 -msimd128 -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -DNDEBUG -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=0 -DFALCON_RAND_WIN32=0
+CFLAGS = -Wall -Wextra -Wshadow -Wundef -O3 -msimd128 -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -fno-exceptions -DNDEBUG -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=0 -DFALCON_RAND_WIN32=0
 LD = emcc
-LDFLAGS = -O3 -msimd128 -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=0 -DFALCON_RAND_WIN32=0
+LDFLAGS = -Os -msimd128 -ffast-math -flto -fno-math-errno -fno-signed-zeros -fno-trapping-math -fno-rounding-math -fno-exceptions -DFALCON_RAND_GETENTROPY=0 -DFALCON_RAND_URANDOM=0 -DFALCON_RAND_WIN32=0 -sEXPORTED_RUNTIME_METHODS=[] -sEVAL_CTORS=2 -sFILESYSTEM=0
 
 LIBS =
 
@@ -26,20 +26,19 @@ OBJ = $(SOURCE)/codec.o $(SOURCE)/common.o $(SOURCE)/falcon.o $(SOURCE)/fft.o $(
 all: falconjs
 
 clean:
-	-rm -f $(OBJ) falcon.js falconjs.o falcon.wasm falcon.wasm.js
+	-rm -f $(OBJ) falcon.js falconjs.o falcon.wasm
 
 falconjs: falconjs.o $(OBJ)
 	$(LD) $(LDFLAGS) -o falcon.js falconjs.o $(OBJ) $(LIBS) \
 	-s EXPORTED_FUNCTIONS='["_xfree","_xmalloc","_falconjs_keygen_make","_falconjs_sign_dyn","_falconjs_verify"]' \
 	-DNDEBUG \
 	-sWASM=1 \
-	-sALLOW_MEMORY_GROWTH=1 \
-	-sSINGLE_FILE=1 \
+	-sWASM_BIGINT=1 \
 	-sNO_EXIT_RUNTIME=1 \
 	-sMODULARIZE=1 \
 	-sEXPORT_ES6=0 \
 	-sENVIRONMENT=web,node \
-	-sINITIAL_MEMORY=131072 \
+	-sINITIAL_MEMORY=262144 \
 
 	head -n -12 falcon.js | cat - patch.post.js > tmp && mv tmp falcon.js
 

@@ -74,19 +74,17 @@ npm run build
 ## Benchmarks
 
 ### 📊 Falcon512 Keygen
-- Bench:  1000 runs, 9558.272 ms total
-- Avg per call: 9.558272 ms
-- Calls/sec: 104.62 ops/sec
-
+- Bench:  1000 runs, 9092.262 ms total
+- Avg per call: 9.092262 ms
+- Calls/sec: 109.98 ops/sec
 ### 📊 Falcon512 Sign
-- Bench:  1000 runs, 425.133 ms total
-- Avg per call: 0.425133 ms
-- Calls/sec: 2352.20 ops/sec
-
+- Bench:  1000 runs, 412.513 ms total
+- Avg per call: 0.412513 ms
+- Calls/sec: 2424.16 ops/sec
 ### 📊 Falcon512 Verify
-- Bench:  1000 runs, 44.425 ms total
-- Avg per call: 0.044425 ms
-- Calls/sec: 22509.81 ops/sec
+- Bench:  1000 runs, 38.885 ms total
+- Avg per call: 0.038885 ms
+- Calls/sec: 25717.08 ops/sec
 
 *Note: Results may differ depending on the execution environment, you can run your own benchmarks following below instructions.*
 
