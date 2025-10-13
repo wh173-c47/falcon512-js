@@ -20,7 +20,8 @@
     "wasm"
   ],
   "files": [
-    "falcon/falcon.js",
+    "falcon/falcon.min.js",
+    "falcon/falcon.wasm",
     "index.js",
     "index.d.ts"
   ],
